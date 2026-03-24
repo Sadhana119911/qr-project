@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>QR Code Generator</title>
+</head>
+<body style="text-align:center; margin-top:50px; font-family:Arial;">
+
+<h1>QR Code Generator</h1>
+
+<input type="text" id="text" placeholder="Enter text here">
+<button onclick="generateQRCode()">Generate QR</button>
+
+<br><br>
+
+<img id="qrImage" style="display:none; width:200px;">
+
+<script>
+async function generateQRCode() {
+    const text = document.getElementById('text').value;
+
+    if (!text) {
+        alert("Enter text");
+        return;
+    }
+
+    try {
+        const response = await fetch("/generate", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ text })
+        });
+
+        const data = await response.json();
+
+        const img = document.getElementById("qrImage");
+        img.src = data.qr;
+        img.style.display = "block";
+
+    } catch (err) {
+        alert("Error generating QR");
+        console.error(err);
+    }
+}
+</script>
+
+</body>
+</html>

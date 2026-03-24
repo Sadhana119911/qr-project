@@ -5,7 +5,6 @@ pipeline {
 
         stage('Clone Code') {
             steps {
-                // Specify the branch explicitly
                 git branch: 'main', url: 'https://github.com/Sadhana119911/qr-project.git'
             }
         }
@@ -21,12 +20,10 @@ pipeline {
         stage('Run Container') {
             steps {
                 script {
-                    // Use bat instead of sh on Windows
                     bat 'docker rm -f qr-container || echo Container does not exist'
-                    bat 'docker run -d -p 3000:3000 --name qr-container qr-app'
+                    bat 'docker run -d -p 8000:3000 --name qr-container qr-app'
                 }
             }
         }
-
     }
 }
